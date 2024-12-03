@@ -68,6 +68,30 @@ func getDistanceSum(a, b []int) (int, error) {
 	return distanceSum, nil
 }
 
+func getSimilarity(a, b []int) int {
+	similarities := make(map[int]int, len(a))
+	res := 0
+
+	slices.Sort(a)
+	slices.Sort(b)
+
+	for _, item := range a {
+		similarities[item] = 0
+	}
+	for _, item := range b {
+		_, ok := similarities[item]
+		if ok {
+			similarities[item] += 1
+		}
+	}
+
+	for _, item := range a {
+		res += item * similarities[item]
+	}
+
+	return res
+}
+
 func main() {
 	lists, err := parseInput(FILENAME)
 	if err != nil {
@@ -77,5 +101,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(res)
+	similarity := getSimilarity(lists[0], lists[1])
+	fmt.Printf("Distance sum: %d\n similarity: %d", res, similarity)
 }

@@ -33,3 +33,37 @@ func TestGetDistanceSum(t *testing.T) {
 		})
 	}
 }
+
+func TestGetSimilarity(t *testing.T) {
+	tests := map[string]struct {
+		a        []int
+		b        []int
+		expected int
+	}{
+		"advent test case": {
+			a:        []int{3, 4, 2, 1, 3, 3},
+			b:        []int{4, 3, 5, 3, 9, 3},
+			expected: 31,
+		},
+		"no similarity": {
+			a:        []int{1},
+			b:        []int{2},
+			expected: 0,
+		},
+		"one similarity": {
+			a:        []int{1, 2},
+			b:        []int{2},
+			expected: 2,
+		},
+	}
+	for name, test := range tests {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			got := getSimilarity(test.a, test.b)
+			if got != test.expected {
+				t.Fatalf("getSimilarity(%+v, %+v) returned %d; expected %d", test.a, test.b, got, test.expected)
+			}
+		})
+	}
+
+}
